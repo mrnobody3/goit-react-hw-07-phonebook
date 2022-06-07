@@ -1,27 +1,63 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { nanoid } from 'nanoid';
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+} from './contacts-operations';
+
+const initialState = {
+  items: [],
+  loading: false,
+  error: null,
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: [],
-  reducers: {
-    addContact: {
-      reducer(store, { payload }) {
-        store.push(payload);
-      },
-      prepare(data) {
-        const newContact = { ...data, id: nanoid() };
-        return {
-          payload: newContact,
-        };
-      },
+  initialState,
+  extraReducers: {
+    [fetchContacts.pending]: (store, _) => ({
+      ...store,
+      loading: true,
+      error: null,
+    }),
+    [fetchContacts.fulfilled]: (store, { payload }) => {
+      store.loading = false;
+      store.items = payload;
     },
-    removeContact: (store, { payload }) =>
-      store.filter(({ id }) => id !== payload),
+    [fetchContacts.rejected]: (store, { payload }) => {
+      store.loading = false;
+      store.error = payload;
+    },
+
+    [addContact.pending]: (store, _) => ({
+      ...store,
+      loading: true,
+      error: null,
+    }),
+    [addContact.fulfilled]: (store, { payload }) => {
+      store.loading = false;
+      store.items.push(payload);
+    },
+    [addContact.rejected]: (store, { payload }) => {
+      store.loading = false;
+      store.error = payload;
+    },
+
+    [deleteContact.pending]: (store, _) => ({
+      ...store,
+      loading: true,
+      error: null,
+    }),
+    [deleteContact.fulfilled]: (store, { payload }) => {
+      store.loading = false;
+      store.items = store.items.filter(item => item.id !== payload);
+    },
+    [deleteContact.rejected]: (store, { payload }) => {
+      store.loading = false;
+      store.error = payload;
+    },
   },
 });
-
-export const { actions } = contactsSlice;
 
 export default contactsSlice.reducer;
