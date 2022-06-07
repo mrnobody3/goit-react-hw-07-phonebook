@@ -1,0 +1,16 @@
+.item {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  width: 400px;
+  align-items: center;
+}
+.info {
+  margin-right: 8px;
+}
+.btn {
+  padding: 4px 8px;
+  border-radius: 10px;
+  background-color: lightpink;
+  cursor: pointer;
+}

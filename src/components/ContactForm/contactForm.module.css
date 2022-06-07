@@ -1,0 +1,18 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.item {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.item:not(:last-child) {
+  margin-bottom: 10px;
+}
+.btn {
+  padding: 4px 8px;
+  border-radius: 10px;
+  background-color: lightpink;
+  cursor: pointer;
+}
